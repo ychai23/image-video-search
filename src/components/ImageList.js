@@ -10,7 +10,7 @@ const ImageList = (props) => {
          <ImageCard key={image.id} image={image} />
       );
    });
-   return <div className="image-list">{images}</div>;
+   return <div className='ui relaxed divided list'>{images}</div>;
 };
 
 export default ImageList;

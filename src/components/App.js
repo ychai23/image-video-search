@@ -32,6 +32,7 @@ class App extends React.Component {
     };
     handleVideoSelect = (video) => {
         this.setState({selectedVideo: video})
+        console.log(this.selectedVideo)
     }
 
     render() {
@@ -39,17 +40,14 @@ class App extends React.Component {
             <div className='ui container' style={{marginTop: '1em'}}>
                 <SearchBar handleFormSubmit={this.handleSubmit}/>
                     <div>
-                        <Grid container spacing={3}>
+                        <Grid container spacing={4}>
                             <Grid item xs={4}>
                             <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
                             </Grid>
                             <Grid item xs={4}>
-                            <ImageList images={this.state.images} />
+                            <ImageList images={this.state.images[0]} />
                             </Grid>
                         </Grid>
-                        {/* <div className="eleven wide column">
-                            <VideoDetail video={this.state.selectedVideo}/>
-                        </div> */}
                         {/* <div className="five wide column">
                             <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
                         </div>
