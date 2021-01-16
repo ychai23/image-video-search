@@ -2,17 +2,19 @@ import React from 'react';
 import SearchBar from './Searchbar';
 import youtube from '../apis/youtube';
 import unsplash from "../apis/unsplash";
-import VideoList from './VideoList';
+import VideoItem from './VideoItem';
 import ImageList from "./ImageList";
+import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
-import Grid from "@material-ui/core/Grid"
+import Grid from "@material-ui/core/Grid";
 
 class App extends React.Component {
     state = {
         videos: [],
         images: [],
         collection: [],
-        selectedVideo: null
+        selectedItems: {},
+        term: null,
     }
     handleSubmit = async (termFromSearchBar) => {
         const response = await youtube.get('/search', {
@@ -23,37 +25,69 @@ class App extends React.Component {
         const imageresponse = await unsplash.get("/search/photos", {
             params: {
                query: termFromSearchBar,
+               per_page: 7
             },
          });
         this.setState({
             videos: response.data.items,
             images: imageresponse.data.results,
+            term: termFromSearchBar,
         })
+        console.log(this.state.term);
     };
     handleVideoSelect = (video) => {
-        this.setState({selectedVideo: video})
-        console.log(this.selectedVideo)
+        var term = this.state.term;
+        if (!this.state.selectedItems[term]){
+            this.state.selectedItems[term] = [`https://www.youtube.com/embed/${video.id.videoId}`];
+        }
+        else{
+            this.state.selectedItems[term].push(`https://www.youtube.com/embed/${video.id.videoId}`);
+        }
+        this.setState({selectedItems: this.state.selectedItems});
     }
+
+    handleImageSelect = (image) => {
+        var term = this.state.term;
+        if (!this.state.selectedItems[term]){
+            this.state.selectedItems[term] = [image.links.download];
+        }
+        else{
+            this.state.selectedItems[term].push(image.links.download);
+        }
+        this.setState({selectedItems: this.state.selectedItems});
+    }
+
+    handleClick = () => {
+        this.setState({selectedItems: {}});
+        console.log("hi");
+        console.log(this.state.selectedItems);
+    }
+
+
 
     render() {
         return (
             <div className='ui container' style={{marginTop: '1em'}}>
                 <SearchBar handleFormSubmit={this.handleSubmit}/>
                     <div>
-                        <Grid container spacing={4}>
+                        <Grid container spacing={3}>
                             <Grid item xs={4}>
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                                <ImageList handleVideoSelect={this.handleImageSelect} images={this.state.images.slice(0,3)} />
                             </Grid>
                             <Grid item xs={4}>
-                            <ImageList images={this.state.images[0]} />
+                                <ImageList handleVideoSelect={this.handleImageSelect} images={this.state.images.slice(3,6)} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                                <ImageList handleVideoSelect={this.handleImageSelect} images={this.state.images.slice(6,7)} />
                             </Grid>
                         </Grid>
-                        {/* <div className="five wide column">
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                        <button onClick={this.handleClickr}>
+                            Clear saved
+                        </button>
+                        <div>
+                              <p>Selected Items: {JSON.stringify(this.state.selectedItems)}</p>
                         </div>
-                        <div className="five wide column">
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
-                        </div> */}
                 </div>
             </div>
         )
