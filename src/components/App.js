@@ -2,10 +2,8 @@ import React from 'react';
 import SearchBar from './Searchbar';
 import youtube from '../apis/youtube';
 import unsplash from "../apis/unsplash";
-import VideoItem from './VideoItem';
 import ImageList from "./ImageList";
 import VideoList from './VideoList';
-import VideoDetail from './VideoDetail';
 import Grid from "@material-ui/core/Grid";
 
 class App extends React.Component {
