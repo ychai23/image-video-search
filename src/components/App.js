@@ -5,6 +5,7 @@ import unsplash from "../apis/unsplash";
 import ImageList from "./ImageList";
 import VideoList from './VideoList';
 import Grid from "@material-ui/core/Grid";
+import 'semantic-ui-css/semantic.min.css';
 
 class App extends React.Component {
     state = {
