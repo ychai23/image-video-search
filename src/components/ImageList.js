@@ -1,16 +1,15 @@
 import React from "react";
 import ImageCard from "./ImageCard";
-import '../style/ImageList.css';
 
-const ImageList = (props) => {
+const ImageList = ({images , handleVideoSelect}) => {
    //    console.log(props.images);
-   const images = props.images.map((image) => {
+   const renderedImages = images.map((image) => {
       return (
          //  <img key={image.id} alt={image.description} src={image.urls.regular} />
-         <ImageCard key={image.id} image={image} />
+         <ImageCard key={image.id} image={image} handleVideoSelect={handleVideoSelect}/>
       );
    });
-   return <div className='ui relaxed divided list'>{images}</div>;
+   return <div className='ui relaxed divided list'>{renderedImages}</div>;
 };
 
 export default ImageList;
