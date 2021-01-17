@@ -32,7 +32,6 @@ class App extends React.Component {
             images: imageresponse.data.results,
             term: termFromSearchBar,
         })
-        console.log(this.state.term);
     };
     handleVideoSelect = (video) => {
         var term = this.state.term;
@@ -56,13 +55,10 @@ class App extends React.Component {
         this.setState({selectedItems: this.state.selectedItems});
     }
 
-    handleClick = () => {
-        this.setState({selectedItems: {}});
-        console.log("hi");
-        console.log(this.state.selectedItems);
+    handleClick () {
+        // console.log("hi");
+        // console.log(this.state);
     }
-
-
 
     render() {
         return (
@@ -81,7 +77,7 @@ class App extends React.Component {
                                 <ImageList handleVideoSelect={this.handleImageSelect} images={this.state.images.slice(6,7)} />
                             </Grid>
                         </Grid>
-                        <button onClick={this.handleClickr}>
+                        <button onClick={this.handleClick}>
                             Clear saved
                         </button>
                         <div>
